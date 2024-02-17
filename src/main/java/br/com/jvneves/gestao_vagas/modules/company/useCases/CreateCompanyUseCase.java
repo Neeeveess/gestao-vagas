@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.jvneves.gestao_vagas.exceptions.UserFoundException;
-import br.com.jvneves.gestao_vagas.modules.company.CompanyEntity;
+import br.com.jvneves.gestao_vagas.modules.company.entities.CompanyEntity;
 import br.com.jvneves.gestao_vagas.modules.company.repositories.CompanyRepository;
 
 @Service
