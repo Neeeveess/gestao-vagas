@@ -1,4 +1,4 @@
-package br.com.jvneves.gestao_vagas.modules.company.entities;
+package br.com.jvneves.gestao_vagas.modules.company;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
