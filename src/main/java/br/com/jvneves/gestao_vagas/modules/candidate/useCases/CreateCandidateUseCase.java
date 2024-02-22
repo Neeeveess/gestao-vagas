@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import br.com.jvneves.gestao_vagas.exceptions.UserFoundException;
 import br.com.jvneves.gestao_vagas.modules.candidate.CandidateEntity;
 import br.com.jvneves.gestao_vagas.modules.candidate.CandidateRepository;
-import br.com.jvneves.gestao_vagas.modules.company.entities.CompanyEntity;
 
 @Service
 public class CreateCandidateUseCase {
@@ -15,12 +14,18 @@ public class CreateCandidateUseCase {
   @Autowired
   private CandidateRepository candidateRepository;
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
   public CandidateEntity execute(CandidateEntity candidateEntity) {
     this.candidateRepository
         .findByUsernameOrEmail(candidateEntity.getUsername(), candidateEntity.getEmail())
         .ifPresent((user) -> {
           throw new UserFoundException();
         });
+
+    var password = passwordEncoder.encode(candidateEntity.getPassword());
+    candidateEntity.setPassword(password);
 
     return this.candidateRepository.save(candidateEntity);
   }
