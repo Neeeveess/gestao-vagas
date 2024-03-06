@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/candidate")
+@Tag(name = "Candidato", description = "Informações do candidato")
 public class CandidateController {
 
   @Autowired
@@ -46,6 +47,13 @@ public class CandidateController {
   private ListAllJobsByFilterUseCase listAllJobsByFilterUseCase;
 
   @PostMapping("/")
+  @Operation(summary = "Cadastro de candidatos", description = "Essa função é responsavel por cadastrar um candidato")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", content = {
+          @Content(schema = @Schema(implementation = CandidateEntity.class))
+      }),
+      @ApiResponse(responseCode = "400", description = "Usuário já existe")
+  })
   public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidateEntity) {
     try {
       var result = this.createCandidateUseCase.execute(candidateEntity);
@@ -57,7 +65,6 @@ public class CandidateController {
 
   @GetMapping("/")
   @PreAuthorize("hasRole('CANDIDATE')")
-  @Tag(name = "Candidato", description = "Informações do candidato")
   @Operation(summary = "Perfil do candidato", description = "Essa função é responsavel por buscar as informações do perfil do usuario")
   @ApiResponses({
       @ApiResponse(responseCode = "200", content = {
@@ -80,14 +87,11 @@ public class CandidateController {
 
   @GetMapping("/job")
   @PreAuthorize("hasRole('CANDIDATE')")
-  @Tag(name = "Candidato", description = "Informações do candidato")
   @Operation(summary = "Listagem de vagas disponivel para o candidato", description = "Essa função é responsavel por listar todas as vagas disponiveis baseada no filtro")
-  @ApiResponses({
-      @ApiResponse(responseCode = "200", content = {
-          @Content(array = @ArraySchema(schema = @Schema(implementation = JobEntity.class)))
-      })
-  })
+  @ApiResponses({ @ApiResponse(responseCode = "200", content = {
+      @Content(array = @ArraySchema(schema = @Schema(implementation = JobEntity.class))) }) })
   @SecurityRequirement(name = "jwt_auth")
+
   public List<JobEntity> findJobByFilter(@RequestParam String filter) {
     return this.listAllJobsByFilterUseCase.execute(filter);
   }
