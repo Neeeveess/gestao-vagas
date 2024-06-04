@@ -26,11 +26,13 @@ jobs:
 
       - name: Add insecure registry
         run: |
-          echo '{"insecure-registries":["http://3.136.37.180:5000"],["https://3.136.37.180:5000"]}' | sudo tee /etc/docker/daemon.json
+          echo '{"insecure-registries":["http://3.136.37.180:5000", "https://3.136.37.180:5000"]}' | sudo tee /etc/docker/daemon.json
           cat /etc/docker/daemon.json  # Verifique se o arquivo foi atualizado corretamente
           
       - name: Restart docker
-        run: sudo systemctl restart docker
+        run: |
+          sudo systemctl restart docker
+        
 
       - name: Login Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} http://3.136.37.180:5000
