@@ -24,10 +24,14 @@ jobs:
       - name: Login Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} http://3.136.37.180:5000
 
+      - name: Insert Godebug
+        run: GODEBUG=x509ignoreCN=0
+
       - name: Add insecure registry
         run: |
           echo '{"insecure-registries":["3.136.37.180:5000"]}' | sudo tee /etc/docker/daemon.json
           sudo systemctl restart docker
+          sudo service docker restart
 
 
       - name: Docker Build image
