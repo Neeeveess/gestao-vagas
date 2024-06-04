@@ -30,7 +30,7 @@ jobs:
           cat /etc/docker/daemon.json  # Verifique se o arquivo foi atualizado corretamente
           
       - name: Restart docker
-        run: sudo service docker restart
+        run: sudo systemctl restart docker
 
       - name: Login Docker Hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} http://3.136.37.180:5000
