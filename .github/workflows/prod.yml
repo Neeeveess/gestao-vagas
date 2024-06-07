@@ -39,7 +39,7 @@ jobs:
         run: docker build -t neeeveess/gestao_vagas .
 
       - name: Tag image docker
-        run: docker tag neeeveess/gestao_vagas 3.136.37.180:5000/neeeveess/gestao_vagas:latest
+        run: docker tag neeeveess/gestao_vagas 3.15.224.211:5000/neeeveess/gestao_vagas:latest
 
       - name: Push image docker
         run: docker push 3.15.224.211:5000/neeeveess/gestao_vagas:latest
