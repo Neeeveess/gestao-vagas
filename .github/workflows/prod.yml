@@ -51,6 +51,9 @@ jobs:
       - name: Remove old image
         run: docker image rm -f 3.15.224.211:5000/neeeveess/gestao_vagas:latest || true
 
+      - name: Login Docker Hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} http://3.15.224.211:5000
+
       - name: Pull image from docker hub
         run: docker pull -a 3.15.224.211:5000/neeeveess/gestao_vagas
 
